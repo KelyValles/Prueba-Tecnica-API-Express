@@ -37,4 +37,6 @@ npm run dev
 
 ## Documentación API
 
+Se resalta que al momento de enviar la prueba aún no se ha completado la configuración para la documentación con swagger por ende se sugiere probar las funcionalidad con un cliente rest de preferencia ejemplo postman.
+
 http://localhost:4000/api/users/docs
