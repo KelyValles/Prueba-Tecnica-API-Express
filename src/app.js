@@ -1,9 +1,13 @@
 import express from "express";
 import morgan from "morgan";
-//Routes
+import swaggerUi from "swagger-ui-express";
+import swaggerDocs from "../swaggerConfig";
 import usersRoutes from "./routes/users.routes";
 
 const app= express();
+
+//swagger
+app.use('/api/users/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //Settings
 app.set('port',4000);

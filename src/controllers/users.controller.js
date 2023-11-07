@@ -50,8 +50,8 @@ const createUser = async (req, res)=>{
 const deleteUser = async(req, res)=>{
     try {
         const {id} = req.params;
-        const deletedUser = await userService.deleteUser(id);
-        res.json(deletedUser); 
+        await userService.deleteUser(id);
+        res.json({message: "User deleted successfully"}); 
     } catch (error) {
        res.status(500).send(error.message); 
     }
