@@ -10,7 +10,7 @@ const options = {
     },
     security: [
       {
-        BearerAuth: [] // Nombre personalizado para el tipo de autenticación (puedes usar cualquier nombre)
+        BearerAuth: [] 
       }
     ],
     components: {

@@ -7,7 +7,7 @@ const { secretKey } = config;
 
 const generateToken = (user) => {
   return jwt.sign({ id: user.id, email: user.email }, secretKey, {
-    expiresIn: "1h", // Puedes ajustar la duración del token según tus necesidades.
+    expiresIn: "1h",
   });
 };
 
