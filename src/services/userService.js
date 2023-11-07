@@ -3,7 +3,7 @@ import { getConnection } from "../database/database";
 const getAllUsers = async () => {
     try {
         const connection = await getConnection();
-        const result = await connection.query("SELECT id, name, lastname, email FROM users");
+        const result = await connection.query("SELECT id, name, lastname, email, password FROM users");
         return result; 
 
     } catch (error) {
@@ -24,7 +24,7 @@ const createUser = async (user) => {
 const getUserById = async (id) => {
     try {
         const connection = await getConnection();
-        const result = await connection.query("SELECT id, name, lastname, email FROM users WHERE id = ?", id);
+        const result = await connection.query("SELECT id, name, lastname, email, password FROM users WHERE id = ?", id);
         return result[0]; 
 
     } catch (error) {
@@ -53,10 +53,21 @@ const updateUser = async (id, user) => {
     }  
 };
 
+const getUserByEmail = async (email) => {
+    try {
+      const connection = await getConnection();
+      const result = await connection.query("SELECT id, name, lastname, email, password FROM users WHERE email = ?", email);
+      return result[0];
+    } catch (error) {
+      throw error;
+    }
+  };
+
 export const userService = {
     getAllUsers,
     createUser,
     getUserById,
     deleteUser,
-    updateUser
+    updateUser,
+    getUserByEmail
 };

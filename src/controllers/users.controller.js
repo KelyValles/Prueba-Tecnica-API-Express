@@ -1,6 +1,5 @@
-import { userService } from "../services/users.service";
-import { getConnection } from "../database/database";
-
+import { userService } from "../services/userService";
+import bcrypt from "bcrypt";
 
 const getAllUsers = async(req, res)=>{
     try {
@@ -30,14 +29,23 @@ const getUserById = async(req, res)=>{
 
 const createUser = async (req, res)=>{
     try {
-        const {name, lastname, email} = req.body;
+        const {name, lastname, email, password} = req.body;
 
-        if(name == undefined || lastname == undefined || email ==undefined){
+        if(name == undefined || lastname == undefined || email == undefined || password == undefined){
             res.status(400).json({message: "Bad Request. Please fill all field."});
         return;
         }
 
-        const user = {name, lastname, email};
+        const userExists = await userService.getUserByEmail(email);
+    
+        if (userExists) {
+        return res.status(400).json({ message: "Usuario existente, por favor inicie sesión." });
+        }
+
+        // Genera el hash de la contraseña
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = {name, lastname, email, password:hashedPassword }; // Almacena el hash en lugar de la contraseña
         await userService.createUser(user);
         res.status(201).json({message: "User created successfully"});
 
@@ -61,13 +69,13 @@ const deleteUser = async(req, res)=>{
 const updateUser = async(req, res)=>{
     try {
         const {id} = req.params;
-        const {name, lastname, email} = req.body;
+        const {name, lastname, email, password} = req.body;
 
-        if(id == undefined || name == undefined || lastname == undefined || email ==undefined){
+        if(id == undefined || name == undefined || lastname == undefined || email == undefined || password == undefined){
             res.status(400).json({message: "Bad Request. Please fill all field."});
         }
 
-        const user = {id, name, lastname, email};
+        const user = {id, name, lastname, email, password};
         await userService.updateUser(id, user);
         res.json({message: "User updated successfully"}); 
     } catch (error) {

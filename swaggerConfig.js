@@ -8,9 +8,24 @@ const options = {
       version: '1.0.0',
       description: 'API para la gestión de usuarios',
     },
+    security: [
+      {
+        BearerAuth: [] // Nombre personalizado para el tipo de autenticación (puedes usar cualquier nombre)
+      }
+    ],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
   },
-  apis: ['src/routes/users.routes.js']
+  apis: ['src/routes/users.routes.js'],
 };
+
 
 const swaggerDocs = swaggerJSDoc(options);
 
